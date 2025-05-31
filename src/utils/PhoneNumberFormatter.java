@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nfs://SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nfs://SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package utils;
 
@@ -15,14 +15,24 @@ import javax.swing.event.DocumentListener;
  */
 public class PhoneNumberFormatter {
 
-    private final String awalanNoTelepon = "+62";
+    private final String phonePrefix = "62"; // Prefix for phone number
     private JTextField textField;
-    private boolean isInitialFormat = true; // Flag untuk menangani input pertama
+    private boolean isInitialFormat = true; // Flag to handle initial input
 
     public PhoneNumberFormatter(JTextField textField) {
         this.textField = textField;
         setupDocumentListener();
-        textField.setText(""); // Mulai dengan field kosong
+        textField.setText(phonePrefix); // Start with "62"
+    }
+
+    // Method to validate phone number length (including 62)
+    public boolean isValidPhoneNumber() {
+        String text = textField.getText().trim();
+        if (text.startsWith(phonePrefix)) {
+            int totalLength = text.length(); // Total length including "62"
+            return totalLength >= 9 && totalLength <= 13;
+        }
+        return false;
     }
 
     private void setupDocumentListener() {
@@ -30,49 +40,34 @@ public class PhoneNumberFormatter {
             private void formatInput() {
                 SwingUtilities.invokeLater(() -> {
                     String text = textField.getText().trim();
-
-                    // Jika kosong, biarkan kosong
-                    if (text.isEmpty()) {
-                        isInitialFormat = true; // Reset flag saat kosong
-                        return;
-                    }
-
-                    String originalText = text; // Simpan teks asli untuk perbandingan
                     int caretPos = textField.getCaretPosition();
 
-                    // Hanya proses jika ini input awal atau ada perubahan
-                    if (isInitialFormat) {
-                        // Hapus semua karakter non-digit
-                        text = text.replaceAll("[^\\d]", "");
-
-                        // Tambahkan awalan +62 hanya untuk input pertama
-                        if (!text.isEmpty() && !text.startsWith(awalanNoTelepon)) {
-                            text = awalanNoTelepon + text;
-                        }
-
-                        // Tambahkan spasi setelah +62
-                        if (text.startsWith(awalanNoTelepon) && !text.contains(" ")) {
-                            text = awalanNoTelepon + " " + text.substring(awalanNoTelepon.length());
-                        }
-
-                        isInitialFormat = false; // Setelah format awal, nonaktifkan flag
+                    // If text is empty or prefix is removed, reset to "62"
+                    if (text.isEmpty() || !text.startsWith(phonePrefix)) {
+                        text = phonePrefix;
+                        isInitialFormat = true;
                     } else {
-                        // Untuk input berikutnya, ambil angka setelah +62
-                        if (text.startsWith(awalanNoTelepon + " ")) {
-                            String numberPart = text.substring(awalanNoTelepon.length() + 1).replaceAll("[^\\d]", "");
-                            text = awalanNoTelepon + " " + numberPart;
+                        // Extract digits after prefix
+                        String digits = text.substring(phonePrefix.length()).replaceAll("[^\\d]", "");
+                        // Limit total length (including prefix) to 13
+                        int maxDigits = 13 - phonePrefix.length();
+                        if (digits.length() > maxDigits) {
+                            digits = digits.substring(0, maxDigits);
                         }
+                        text = phonePrefix + digits;
+                        isInitialFormat = false;
                     }
 
-                    // Update hanya jika berbeda
+                    // Update text field only if different
                     if (!text.equals(textField.getText())) {
                         textField.setText(text);
-                        // Posisikan kursor di akhir teks
-                        caretPos = text.length();
+                        // Adjust caret position
+                        if (caretPos < phonePrefix.length()) {
+                            caretPos = phonePrefix.length(); // Prevent caret before prefix
+                        } else if (caretPos > text.length()) {
+                            caretPos = text.length();
+                        }
                         textField.setCaretPosition(caretPos);
-                    } else if (caretPos < text.length()) {
-                        // Pastikan kursor tetap di akhir jika pengguna mengetik lebih lanjut
-                        textField.setCaretPosition(text.length());
                     }
                 });
             }

@@ -10,7 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -35,8 +40,18 @@ public class Supplier extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         tampilkanBarangKeTabelS();
-
         new PhoneNumberFormatter(KontakTxt);
+
+        tableS.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && tableS.getSelectedRow() != -1) {
+                int selectedRow = tableS.getSelectedRow();
+                String idSupplier = tableS.getValueAt(selectedRow, 0).toString();
+                String namaSupplier = tableS.getValueAt(selectedRow, 1).toString();
+                String alamatSupplier = tableS.getValueAt(selectedRow, 2).toString();
+                String kontakSupplier = tableS.getValueAt(selectedRow, 3).toString();
+                showEditDialog(idSupplier, namaSupplier, alamatSupplier, kontakSupplier);
+            }
+        });
     }
 
     private String generateIdSupplier() throws SQLException {
@@ -86,6 +101,89 @@ public class Supplier extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Gagal menampilkan data: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void showEditDialog(String idSupplier, String namaSupplier, String alamatSupplier, String kontakSupplier) {
+        JDialog editDialog = new JDialog(this, "Edit Supplier", true);
+        editDialog.setSize(300, 250);
+        editDialog.setLocationRelativeTo(this);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+
+        // Labels and text fields
+        JLabel namaLabel = new JLabel("Nama");
+        namaLabel.setBounds(20, 20, 80, 25);
+        JTextField namaField = new JTextField(namaSupplier);
+        namaField.setBounds(100, 20, 160, 25);
+
+        JLabel alamatLabel = new JLabel("Alamat");
+        alamatLabel.setBounds(20, 60, 80, 25);
+        JTextField alamatField = new JTextField(alamatSupplier);
+        alamatField.setBounds(100, 60, 160, 25);
+
+        JLabel kontakLabel = new JLabel("Kontak");
+        kontakLabel.setBounds(20, 100, 80, 25);
+        JTextField kontakField = new JTextField(kontakSupplier);
+        kontakField.setBounds(100, 100, 160, 25);
+
+        // Buttons
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(100, 150, 80, 25);
+        okButton.addActionListener(e -> {
+            String newNama = namaField.getText().trim();
+            String newAlamat = alamatField.getText().trim();
+            String newKontak = kontakField.getText().trim();
+
+            // Validate fields
+            if (newNama.isEmpty() || newAlamat.isEmpty() || newKontak.isEmpty()) {
+                JOptionPane.showMessageDialog(editDialog, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+//            PhoneNumberFormatter tempFormatter = new PhoneNumberFormatter(KontakTxt);
+//            if (!tempFormatter.isValidPhoneNumber()) {
+//                JOptionPane.showMessageDialog(null, "Nomor kontak harus antara 9-13 karakter termasuk prefix 62!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+
+            // Update database
+            try (Connection conn = Koneksi.getKoneksi(); PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE supplier_barang SET nama_supplier = ?, alamat_supplier = ?, kontak_supplier = ? WHERE id_supplier_barang = ?")) {
+                ps.setString(1, newNama);
+                ps.setString(2, newAlamat);
+                ps.setString(3, newKontak);
+                ps.setString(4, idSupplier);
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(editDialog, "Data Supplier berhasil diperbarui!");
+                    tampilkanBarangKeTabelS(); // Refresh table
+                    editDialog.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(editDialog, "Gagal memperbarui data: Supplier tidak ditemukan!");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(editDialog, "Gagal menyimpan data: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(180, 150, 80, 25);
+        cancelButton.addActionListener(e -> editDialog.dispose());
+
+        // Add components to panel
+        panel.add(namaLabel);
+        panel.add(namaField);
+        panel.add(alamatLabel);
+        panel.add(alamatField);
+        panel.add(kontakLabel);
+        panel.add(kontakField);
+        panel.add(okButton);
+        panel.add(cancelButton);
+
+        editDialog.add(panel);
+        editDialog.setVisible(true);
     }
 
     /**
@@ -154,30 +252,27 @@ public class Supplier extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(namaS)
-                            .addComponent(KontakTxt)
-                            .addComponent(alamatS, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(simpanS)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(batalS)
-                        .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(namaS, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(KontakTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(alamatS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(simpanS)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(batalS)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,6 +316,7 @@ public class Supplier extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void simpanSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanSActionPerformed
@@ -228,24 +324,21 @@ public class Supplier extends javax.swing.JDialog {
         String alamatSupplier = alamatS.getText().trim();
         String kontakSupplier = KontakTxt.getText().trim();
 
-        // Validasi field kosong
+        // Validate fields
         if (namaSupplier.isEmpty() || alamatSupplier.isEmpty() || kontakSupplier.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+//        PhoneNumberFormatter tempFormatter = new PhoneNumberFormatter(KontakTxt);
+//        if (!tempFormatter.isValidPhoneNumber()) {
+//            JOptionPane.showMessageDialog(null, "Nomor kontak harus antara 9-13 karakter termasuk prefix 62!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+
         try {
             Connection conn = Koneksi.getKoneksi();
-
-            // 🔑 Generate ID Manual
-            String idSupplierStr = "";
-            try {
-                idSupplierStr = generateIdSupplier();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Gagal generate ID: " + ex.getMessage());
-                return;
-            }
-
+            String idSupplierStr = generateIdSupplier();
             String insertSupplier = "INSERT INTO supplier_barang (id_supplier_barang, nama_supplier, alamat_supplier, kontak_supplier) VALUES (?, ?, ?, ?)";
             try (PreparedStatement psSupplier = conn.prepareStatement(insertSupplier)) {
                 psSupplier.setString(1, idSupplierStr);
@@ -256,16 +349,14 @@ public class Supplier extends javax.swing.JDialog {
             }
 
             JOptionPane.showMessageDialog(null, "Data Supplier berhasil disimpan!");
-            // 🧼 Reset form
             namaS.setText("");
             alamatS.setText("");
             KontakTxt.setText("");
-
-            // Segarkan tabel untuk menampilkan data baru
             tampilkanBarangKeTabelS();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Gagal menyimpan data: " + e.getMessage());
+            e.printStackTrace();
         }
     }//GEN-LAST:event_simpanSActionPerformed
 

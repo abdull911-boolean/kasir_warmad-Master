@@ -6,9 +6,18 @@ package kasir_warmad;
 
 import java.sql.*;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import kasir_warmad.sistem.Koneksi;
 import kasir_warmad.sistem.Session;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import utils.RupiahUtil;
 
 /**
@@ -22,6 +31,41 @@ public class Laporan extends javax.swing.JFrame {
      */
     public Laporan() {
         initComponents();
+    }
+
+    public void cetakLaporanPenjualan(int bulan, int tahun) {
+        try {
+            Connection conn = Koneksi.getKoneksi();
+            // Path ke file .jasper (hasil compile dari .jrxml)
+            String reportPath = "src/reports/LaporanPenjualan.jasper";
+
+            // Load report dari file .jasper
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(reportPath);
+
+            // Parameter untuk report
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("bulan", bulan);
+            parameters.put("tahun", tahun);
+
+            // Fill report dengan data
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,
+                    parameters,
+                    conn
+            );
+
+            // Tampilkan preview report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("Laporan Penjualan Bulanan");
+            viewer.setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error saat membuat report: " + e.getMessage(),
+                    "Report Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -143,7 +187,26 @@ public class Laporan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cetakBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakBtnActionPerformed
-        // TODO add your handling code here:
+        // Tampilkan dialog konfirmasi
+        int cetak = JOptionPane.showConfirmDialog(null, "Cetak laporan penjualan sekarang?", "Cetak Laporan", JOptionPane.YES_NO_OPTION);
+        if (cetak == JOptionPane.YES_OPTION) {
+            // Ambil tanggal dari pilihTahunBulanJC
+            java.util.Date selectedDate = pilihTahunBulanJC.getDate();
+            if (selectedDate == null) {
+                JOptionPane.showMessageDialog(this, "Silakan pilih tanggal terlebih dahulu.");
+                return;
+            }
+
+            // Ekstrak bulan dan tahun
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(selectedDate);
+            int bulan = cal.get(Calendar.MONTH) + 1; // bulan dimulai dari 0
+            int tahun = cal.get(Calendar.YEAR);
+
+            // Panggil metode cetakLaporanPenjualan
+            reports.Laporan laporan = new reports.Laporan(); // Asumsikan kelas ini ada
+            laporan.cetakLaporanPenjualan(bulan, tahun);
+        }
     }//GEN-LAST:event_cetakBtnActionPerformed
 
     private void tampilkanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tampilkanBtnActionPerformed

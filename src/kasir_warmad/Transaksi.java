@@ -19,7 +19,10 @@ import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.swing.UIManager;
 import utils.filterAngka;
 import javax.swing.text.*;
@@ -60,6 +63,22 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
         });
+
+        // Listener untuk edit jumlah barang dengan double-click
+        TabelT.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Double-click
+                    int selectedRow = TabelT.getSelectedRow();
+                    if (selectedRow >= 0) {
+                        System.out.println("click detected on row: " + selectedRow); // Debugging
+                        editJumlahBarang(selectedRow);
+                    } else {
+                        System.out.println("No row selected on double-click"); // Debugging
+                    }
+                }
+            }
+        });
     }
 
     private void clearInput() {
@@ -84,7 +103,6 @@ public class Transaksi extends javax.swing.JFrame {
             } else {
                 KembalianT.setText("");
             }
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Pastikan semua inputan angka valid!");
         }
@@ -94,26 +112,35 @@ public class Transaksi extends javax.swing.JFrame {
         String barcode = kodeBarangTxt.getText().trim();
 
         if (!barcode.isEmpty()) {
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/kasir_warmad", "root", ""); PreparedStatement pst = con.prepareStatement("SELECT * FROM v_barcodebarang WHERE barcode_barang = ?")) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/kasir_warmad", "root", ""); PreparedStatement pst = con.prepareStatement(
+                    "SELECT vs.nama_barang, vs.harga_jual, vs.jumlah_stok, vs.tanggal_kadaluarsa "
+                    + "FROM v_stok vs "
+                    + "WHERE vs.barcode_barang = ? AND vs.tanggal_kadaluarsa >= CURRENT_DATE")) {
 
                 pst.setString(1, barcode);
                 ResultSet rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    // Tidak perlu mengisi namaBarangTxt dan HargaT karena sudah dihapus
+                    // Ambil data untuk keperluan lebih lanjut (misalnya, tampilkan di UI atau simpan)
+                    String nama = rs.getString("nama_barang");
+                    BigDecimal harga = rs.getBigDecimal("harga_jual");
+                    int stok = rs.getInt("jumlah_stok");
+                    Date tanggalKadaluarsa = rs.getDate("tanggal_kadaluarsa");
+
+                    // Contoh: Tampilkan data di UI (opsional, sesuaikan dengan kebutuhan Anda)
+                    // kodeBarangTxt.setText(barcode); // Sudah diisi sebelumnya
+                    // Tambahkan logika lain jika diperlukan, misalnya mengisi tabel atau form
                     return true;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Produk tidak ditemukan!");
+                    JOptionPane.showMessageDialog(null, "Produk dengan kode " + barcode + " tidak ditemukan atau kadaluarsa!");
                     clearInput();
                 }
-
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat mengambil data.");
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat mengambil data: " + ex.getMessage());
                 clearInput();
             }
         }
-
         return false;
     }
 
@@ -168,6 +195,7 @@ public class Transaksi extends javax.swing.JFrame {
                 if (rsId.next()) {
                     String idBarangJual = rsId.getString("id_barang_jual");
 
+                    // Simpan detail transaksi
                     String insertDetail = "INSERT INTO detail_transaksi_pelanggan (id_transaksi_kasir, id_barang_jual, jumlah, harga_satuan, subtotal, diskon) VALUES (?, ?, ?, ?, ?, ?)";
                     PreparedStatement pstDetail = conn.prepareStatement(insertDetail);
                     pstDetail.setInt(1, idTransaksi);
@@ -177,6 +205,35 @@ public class Transaksi extends javax.swing.JFrame {
                     pstDetail.setBigDecimal(5, subtotal);
                     pstDetail.setBigDecimal(6, BigDecimal.ZERO); // diskon per item
                     pstDetail.executeUpdate();
+
+                    // Kurangi stok dari stok_gudang
+                    int sisaJumlah = jumlah;
+                    String selectStok = "SELECT id_stok_gudang, jumlah_stok FROM stok_gudang WHERE id_barang_jual = ? AND tanggal_kadaluarsa >= CURRENT_DATE ORDER BY tanggal_kadaluarsa ASC";
+                    PreparedStatement pstStok = conn.prepareStatement(selectStok);
+                    pstStok.setString(1, idBarangJual);
+                    ResultSet rsStok = pstStok.executeQuery();
+
+                    while (rsStok.next() && sisaJumlah > 0) {
+                        int stokTersedia = rsStok.getInt("jumlah_stok");
+                        String idStokGudang = rsStok.getString("id_stok_gudang");
+
+                        if (stokTersedia > 0) {
+                            int jumlahKurang = Math.min(sisaJumlah, stokTersedia);
+                            int stokBaru = stokTersedia - jumlahKurang;
+
+                            String updateStok = "UPDATE stok_gudang SET jumlah_stok = ? WHERE id_stok_gudang = ?";
+                            PreparedStatement pstUpdate = conn.prepareStatement(updateStok);
+                            pstUpdate.setInt(1, stokBaru);
+                            pstUpdate.setString(2, idStokGudang);
+                            pstUpdate.executeUpdate();
+
+                            sisaJumlah -= jumlahKurang;
+                        }
+                    }
+
+                    if (sisaJumlah > 0) {
+                        throw new Exception("Stok tidak cukup untuk barang dengan barcode: " + barcode);
+                    }
                 } else {
                     throw new Exception("ID Barang tidak ditemukan untuk barcode: " + barcode);
                 }
@@ -189,7 +246,7 @@ public class Transaksi extends javax.swing.JFrame {
             int cetak = JOptionPane.showConfirmDialog(null, "Cetak struk sekarang?", "Cetak Struk", JOptionPane.YES_NO_OPTION);
             if (cetak == JOptionPane.YES_OPTION) {
                 reports.nota n = new reports.nota();
-                n.printStrukLangsung(idTransaksi);
+                n.cetakStruk(idTransaksi);
             }
 
             DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
@@ -219,6 +276,81 @@ public class Transaksi extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             }
+        }
+    }
+
+    private void editJumlahBarang(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
+        String kode = model.getValueAt(selectedRow, 0).toString();
+        String nama = model.getValueAt(selectedRow, 1).toString();
+        int jumlahLama = Integer.parseInt(model.getValueAt(selectedRow, 3).toString());
+
+        // Tampilkan dialog untuk memasukkan jumlah baru
+        String input = JOptionPane.showInputDialog(this, "Masukkan jumlah baru untuk " + nama + ":", jumlahLama);
+        if (input == null || input.trim().isEmpty()) {
+            return; // User membatalkan input
+        }
+
+        try {
+            int jumlahBaru = Integer.parseInt(input);
+            if (jumlahBaru <= 0) {
+                JOptionPane.showMessageDialog(this, "Jumlah harus lebih dari 0!");
+                return;
+            }
+
+            // Validasi stok menggunakan view v_stok
+            Connection conn = Koneksi.getKoneksi();
+            String sql = "SELECT SUM(vs.jumlah_stok) AS total_stok "
+                    + "FROM v_stok vs "
+                    + "WHERE vs.barcode_barang = ? AND vs.tanggal_kadaluarsa >= CURRENT_DATE";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, kode);
+            ResultSet rs = pst.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "Barang dengan kode " + kode + " tidak ditemukan atau kadaluarsa.");
+                return;
+            }
+
+            int stokTersedia = rs.getInt("total_stok");
+            int jumlahTotal = jumlahBaru;
+
+            // Hitung total jumlah barang yang sama di tabel (selain baris yang diedit)
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (i != selectedRow && model.getValueAt(i, 0).toString().equals(kode)) {
+                    jumlahTotal += Integer.parseInt(model.getValueAt(i, 3).toString());
+                }
+            }
+
+            if (stokTersedia < jumlahTotal) {
+                JOptionPane.showMessageDialog(this, "Stok tidak cukup untuk \"" + nama + "\". Stok tersedia: " + stokTersedia + ", diminta: " + jumlahTotal);
+                return;
+            }
+
+            // Perbarui jumlah dan total di tabel
+            BigDecimal harga = RupiahUtil.parse(model.getValueAt(selectedRow, 2).toString());
+            BigDecimal totalBaru = harga.multiply(BigDecimal.valueOf(jumlahBaru));
+            model.setValueAt(jumlahBaru, selectedRow, 3);
+            model.setValueAt(RupiahUtil.format(totalBaru), selectedRow, 4);
+
+            // Hitung ulang total keseluruhan
+            BigDecimal totalKeseluruhan = BigDecimal.ZERO;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                BigDecimal totalItem = RupiahUtil.parse(model.getValueAt(i, 4).toString());
+                totalKeseluruhan = totalKeseluruhan.add(totalItem);
+            }
+
+            TotalsemuaT.setText(RupiahUtil.format(totalKeseluruhan));
+            KeseluruhanT.setText(RupiahUtil.format(totalKeseluruhan));
+
+            System.out.println("Jumlah barang " + nama + " diperbarui menjadi " + jumlahBaru); // Debugging
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Masukkan angka yang valid untuk jumlah!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error saat memeriksa stok: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
 
@@ -348,9 +480,10 @@ public class Transaksi extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Kode", "Nama", "Harga", "Jumlah", "Total"
+                "Barcode", "Nama", "Harga", "Jumlah", "Total"
             }
         ));
+        TabelT.setColumnSelectionAllowed(false);
         jScrollPane1.setViewportView(TabelT);
 
         HapusT.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -455,12 +588,9 @@ public class Transaksi extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(PembayaranT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(KembalianT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel10))
+                    .addComponent(KembalianT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(metodeBayarBox, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
                 .addComponent(bayarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -646,94 +776,45 @@ public class Transaksi extends javax.swing.JFrame {
             String kode = kodeBarangTxt.getText();
             int jumlah = Integer.parseInt(JumlahT.getText());
 
-            // Ambil data nama dan harga dari database
+            // Ambil data nama, harga, dan cek kadaluarsa dari v_stok
             Connection conn = Koneksi.getKoneksi();
-            String sqlBarang = "SELECT nama_barang, harga_jual FROM v_barcodebarang WHERE barcode_barang = ?";
+            String sqlBarang = "SELECT vs.nama_barang, vs.harga_jual, SUM(vs.jumlah_stok) AS total_stok "
+                    + "FROM v_stok vs "
+                    + "WHERE vs.barcode_barang = ? AND vs.tanggal_kadaluarsa >= CURRENT_DATE "
+                    + "GROUP BY vs.nama_barang, vs.harga_jual";
             PreparedStatement pstBarang = conn.prepareStatement(sqlBarang);
             pstBarang.setString(1, kode);
             ResultSet rsBarang = pstBarang.executeQuery();
 
             if (!rsBarang.next()) {
-                JOptionPane.showMessageDialog(null, "Barang dengan kode " + kode + " tidak ditemukan.");
+                JOptionPane.showMessageDialog(null, "Barang dengan kode " + kode + " tidak ditemukan atau kadaluarsa.");
                 clearInput();
                 return;
             }
 
             String nama = rsBarang.getString("nama_barang");
             BigDecimal harga = rsBarang.getBigDecimal("harga_jual");
+            int stokTersedia = rsBarang.getInt("total_stok");
 
-            // Validasi stok tersedia
-            String sqlCek = "SELECT SUM(sg.jumlah_stok) AS total_stok, bj.id_barang_jual "
-                    + "FROM stok_gudang sg "
-                    + "JOIN barang_jual bj ON sg.id_barang_jual = bj.id_barang_jual "
-                    + "WHERE bj.barcode_barang = ? "
-                    + "GROUP BY bj.id_barang_jual";
-            PreparedStatement pstCek = conn.prepareStatement(sqlCek);
-            pstCek.setString(1, kode);
-            ResultSet rsCek = pstCek.executeQuery();
-
-            String idBarangJual = null;
-            int stokTersedia = 0;
-            if (rsCek.next()) {
-                stokTersedia = rsCek.getInt("total_stok");
-                idBarangJual = rsCek.getString("id_barang_jual");
-
-                // Cek jika jumlah yang ingin ditambah melebihi stok
-                int jumlahTotal = jumlah;
-
-                DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
-                for (int i = 0; i < model.getRowCount(); i++) {
-                    if (model.getValueAt(i, 0).toString().equals(kode)) {
-                        int jumlahLama = Integer.parseInt(model.getValueAt(i, 3).toString());
-                        jumlahTotal += jumlahLama;
-                        break;
-                    }
+            // Validasi stok
+            int jumlahTotal = jumlah;
+            DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (model.getValueAt(i, 0).toString().equals(kode)) {
+                    int jumlahLama = Integer.parseInt(model.getValueAt(i, 3).toString());
+                    jumlahTotal += jumlahLama;
+                    break;
                 }
+            }
 
-                if (stokTersedia < jumlahTotal) {
-                    JOptionPane.showMessageDialog(null, "Stok tidak cukup untuk \"" + nama + "\". Stok tersedia: " + stokTersedia + ", diminta: " + jumlahTotal);
-                    clearInput();
-                    return;
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Barang dengan kode " + kode + " tidak ditemukan di stok.");
+            if (stokTersedia < jumlahTotal) {
+                JOptionPane.showMessageDialog(null, "Stok tidak cukup untuk \"" + nama + "\". Stok tersedia: " + stokTersedia + ", diminta: " + jumlahTotal);
                 clearInput();
                 return;
             }
 
-            // Kurangi stok dari entri yang memiliki stok positif
-            String sqlGetStok = "SELECT id_stok_gudang, jumlah_stok "
-                    + "FROM stok_gudang "
-                    + "WHERE id_barang_jual = ? AND jumlah_stok > 0 "
-                    + "ORDER BY tanggal_input ASC";
-            PreparedStatement pstGetStok = conn.prepareStatement(sqlGetStok);
-            pstGetStok.setString(1, idBarangJual);
-            ResultSet rsStok = pstGetStok.executeQuery();
-
-            int jumlahYangHarusDikurangi = jumlah;
-            while (rsStok.next() && jumlahYangHarusDikurangi > 0) {
-                String idStokGudang = rsStok.getString("id_stok_gudang");
-                int stokSaatIni = rsStok.getInt("jumlah_stok");
-                int jumlahDikurangi = Math.min(jumlahYangHarusDikurangi, stokSaatIni);
-
-                String updateStok = "UPDATE stok_gudang SET jumlah_stok = jumlah_stok - ? WHERE id_stok_gudang = ?";
-                PreparedStatement pstStok = conn.prepareStatement(updateStok);
-                pstStok.setInt(1, jumlahDikurangi);
-                pstStok.setString(2, idStokGudang);
-                pstStok.executeUpdate();
-
-                jumlahYangHarusDikurangi -= jumlahDikurangi;
-            }
-
-            if (jumlahYangHarusDikurangi > 0) {
-                JOptionPane.showMessageDialog(null, "Gagal mengurangi stok: Stok tidak cukup setelah pemeriksaan.");
-                return;
-            }
-
             // Tambah ke tabel atau update jumlah jika sudah ada
-            DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
             boolean barangSudahAda = false;
-
             for (int i = 0; i < model.getRowCount(); i++) {
                 if (model.getValueAt(i, 0).toString().equals(kode)) {
                     int jumlahLama = Integer.parseInt(model.getValueAt(i, 3).toString());
@@ -769,9 +850,9 @@ public class Transaksi extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Masukkan angka yang valid untuk jumlah!");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error saat memperbarui stok: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error saat memeriksa stok: " + e.getMessage());
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_TambahkanTActionPerformed
 

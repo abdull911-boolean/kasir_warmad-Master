@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
+import java.util.Timer;
 import javax.swing.table.DefaultTableModel;
 import utils.RupiahUtil;
 
@@ -23,7 +23,7 @@ public class SearchBoxBarang {
     private JList<String> searchList;
     private DefaultListModel<String> listModel;
     private List<Barang> barangList;
-    private String lastSearchText = ""; // Variabel untuk debounce
+    private String lastSearchText = "";
 
     private static class Barang {
 
@@ -58,7 +58,6 @@ public class SearchBoxBarang {
         searchList.setBackground(Color.WHITE);
         searchList.setFixedCellHeight(25);
 
-        // Nonaktifkan fokus pada popup dan JList
         popupMenu.setFocusable(false);
         searchList.setFocusable(false);
 
@@ -99,7 +98,6 @@ public class SearchBoxBarang {
                             Barang selectedBarang = barangList.get(index);
                             System.out.println("Barang dipilih: kode=" + selectedBarang.kode + ", nama=" + selectedBarang.nama);
                             kodeBarangTxt.setText(selectedBarang.kode);
-                            // Set JumlahT menjadi "1" sebelum menambahkan ke tabel
                             JumlahT.setText("1");
                             tambahKeTabel(selectedBarang);
                             System.out.println("Item dipilih dan ditambahkan ke tabel, menyembunyikan popup");
@@ -108,15 +106,10 @@ public class SearchBoxBarang {
                         } catch (Exception ex) {
                             System.err.println("Error saat memilih barang: " + ex.getMessage());
                             ex.printStackTrace();
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    JOptionPane.showMessageDialog(null, "Error saat memilih barang: " + ex.getMessage());
-                                }
+                            SwingUtilities.invokeLater(() -> {
+                                JOptionPane.showMessageDialog(null, "Error saat memilih barang: " + ex.getMessage());
                             });
                         }
-                    } else {
-                        System.out.println("Index tidak valid atau barangList tidak sinkron: index=" + index + ", barangList size=" + barangList.size());
                     }
                 }
             }
@@ -126,7 +119,7 @@ public class SearchBoxBarang {
             @Override
             public void focusLost(FocusEvent e) {
                 System.out.println("Focus lost detected on searchBarangTxt");
-                Timer timer = new Timer(200, new ActionListener() {
+                javax.swing.Timer timer = new javax.swing.Timer(200, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (!searchBarangTxt.isFocusOwner()) {
@@ -151,85 +144,80 @@ public class SearchBoxBarang {
     }
 
     private void searchBarang(String searchText) {
-        DefaultListModel<String> newListModel = new DefaultListModel<>();
-        List<Barang> newBarangList = new ArrayList<>();
+    System.out.println("Memulai pencarian untuk: " + searchText);
+    DefaultListModel<String> newListModel = new DefaultListModel<>();
+    List<Barang> newBarangList = new ArrayList<>();
 
-        try {
-            Connection conn = Koneksi.getKoneksi();
-            if (conn == null) {
-                System.err.println("Koneksi ke database gagal: conn adalah null");
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database.");
-                    }
-                });
-                return;
-            }
-            System.out.println("Terhubung ke database. Mencari: " + searchText);
-            String sql = "SELECT barcode_barang, nama_barang, harga_jual, jumlah_stok "
-                    + "FROM v_stok "
-                    + "WHERE nama_barang LIKE ? AND jumlah_stok > 0";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, "%" + searchText + "%");
-            ResultSet rs = pst.executeQuery();
-
-            int rowCount = 0;
-            while (rs.next()) {
-                String kode = rs.getString("barcode_barang");
-                String nama = rs.getString("nama_barang");
-                BigDecimal harga = rs.getBigDecimal("harga_jual");
-                int stok = rs.getInt("jumlah_stok");
-
-                newBarangList.add(new Barang(kode, nama, harga, stok));
-                newListModel.addElement(nama + " (Stok: " + stok + ")");
-                rowCount++;
-            }
-            System.out.println("Pencarian untuk '" + searchText + "' menghasilkan " + rowCount + " barang.");
-
-            listModel.clear();
-            barangList.clear();
-            for (int i = 0; i < newListModel.size(); i++) {
-                listModel.addElement(newListModel.getElementAt(i));
-            }
-            barangList.addAll(newBarangList);
-            System.out.println("List model diperbarui dengan " + listModel.getSize() + " item");
-
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (listModel.getSize() > 0) {
-                        System.out.println("Menampilkan popup dengan " + listModel.getSize() + " item");
-                        popupMenu.setPreferredSize(new Dimension(searchBarangTxt.getWidth(), 150));
-                        popupMenu.show(searchBarangTxt, 0, searchBarangTxt.getHeight());
-                        searchBarangTxt.requestFocusInWindow();
-                    } else {
-                        System.out.println("Tidak ada hasil pencarian, menyembunyikan popup");
-                        popupMenu.setVisible(false);
-                    }
-                }
+    try {
+        Connection conn = Koneksi.getKoneksi();
+        if (conn == null) {
+            System.err.println("Koneksi ke database gagal: conn adalah null");
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Gagal terhubung ke database.");
             });
-
-        } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
-            ex.printStackTrace();
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    JOptionPane.showMessageDialog(null, "Error saat mencari barang: " + ex.getMessage());
-                }
-            });
-        } catch (Exception ex) {
-            System.err.println("Exception: " + ex.getMessage());
-            ex.printStackTrace();
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    JOptionPane.showMessageDialog(null, "Error tak terduga: " + ex.getMessage());
-                }
-            });
+            return;
         }
+        System.out.println("Terhubung ke database. Mencari: " + searchText);
+        String sql = "SELECT bj.barcode_barang, bj.nama_barang, sg.harga_jual, SUM(sg.jumlah_stok) AS jumlah_stok " +
+                     "FROM barang_jual bj " +
+                     "JOIN stok_gudang sg ON bj.id_barang_jual = sg.id_barang_jual " +
+                     "WHERE bj.nama_barang LIKE ? AND sg.jumlah_stok > 0 AND sg.tanggal_kadaluarsa >= CURRENT_DATE " +
+                     "GROUP BY bj.barcode_barang, bj.nama_barang, sg.harga_jual";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, "%" + searchText + "%");
+        
+        long startTime = System.currentTimeMillis();
+        ResultSet rs = pst.executeQuery();
+        long endTime = System.currentTimeMillis();
+        System.out.println("Query pencarian selesai dalam " + (endTime - startTime) + " ms");
+
+        int rowCount = 0;
+        while (rs.next()) {
+            String kode = rs.getString("barcode_barang");
+            String nama = rs.getString("nama_barang");
+            BigDecimal harga = rs.getBigDecimal("harga_jual");
+            int stok = rs.getInt("jumlah_stok");
+
+            newBarangList.add(new Barang(kode, nama, harga, stok));
+            newListModel.addElement(nama + " (Stok: " + stok + ")");
+            rowCount++;
+        }
+        System.out.println("Pencarian untuk '" + searchText + "' menghasilkan " + rowCount + " barang.");
+
+        listModel.clear();
+        barangList.clear();
+        for (int i = 0; i < newListModel.size(); i++) {
+            listModel.addElement(newListModel.getElementAt(i));
+        }
+        barangList.addAll(newBarangList);
+        System.out.println("List model diperbarui dengan " + listModel.getSize() + " item");
+
+        SwingUtilities.invokeLater(() -> {
+            if (listModel.getSize() > 0) {
+                System.out.println("Menampilkan popup dengan " + listModel.getSize() + " item");
+                popupMenu.setPreferredSize(new Dimension(searchBarangTxt.getWidth(), 150));
+                popupMenu.show(searchBarangTxt, 0, searchBarangTxt.getHeight());
+                searchBarangTxt.requestFocusInWindow();
+            } else {
+                System.out.println("Tidak ada hasil pencarian, menyembunyikan popup");
+                popupMenu.setVisible(false);
+            }
+        });
+
+    } catch (SQLException ex) {
+        System.err.println("SQLException di searchBarang: " + ex.getMessage());
+        ex.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "Error saat mencari barang: " + ex.getMessage());
+        });
+    } catch (Exception ex) {
+        System.err.println("Exception di searchBarang: " + ex.getMessage());
+        ex.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "Error tak terduga: " + ex.getMessage());
+        });
     }
+}
 
     private void tambahKeTabel(Barang barang) {
         try {
@@ -248,27 +236,6 @@ public class SearchBoxBarang {
             if (jumlah > barang.stok) {
                 JOptionPane.showMessageDialog(null, "Stok tidak cukup untuk \"" + barang.nama
                         + "\". Stok tersedia: " + barang.stok + ", diminta: " + jumlah);
-                return;
-            }
-
-            Connection conn = Koneksi.getKoneksi();
-            if (conn == null) {
-                JOptionPane.showMessageDialog(null, "Gagal terhubung ke database.");
-                return;
-            }
-
-            String sqlUpdate = "UPDATE stok_gudang "
-                    + "SET jumlah_stok = jumlah_stok - ? "
-                    + "WHERE id_barang_jual = (SELECT id_barang_jual FROM barang_jual WHERE barcode_barang = ?) "
-                    + "AND jumlah_stok > 0 "
-                    + "LIMIT 1";
-            PreparedStatement pstUpdate = conn.prepareStatement(sqlUpdate);
-            pstUpdate.setInt(1, jumlah);
-            pstUpdate.setString(2, barang.kode);
-            int rowsAffected = pstUpdate.executeUpdate();
-
-            if (rowsAffected == 0) {
-                JOptionPane.showMessageDialog(null, "Gagal mengurangi stok: Tidak ada stok yang cukup.");
                 return;
             }
 
@@ -306,16 +273,12 @@ public class SearchBoxBarang {
             TotalsemuaT.setText(RupiahUtil.format(totalKeseluruhan));
             KeseluruhanT.setText(RupiahUtil.format(totalKeseluruhan));
 
-            // Hanya reset searchBarangTxt dan JumlahT, biarkan kodeBarangTxt tetap menampilkan barcode
             searchBarangTxt.setText("");
             JumlahT.setText("1");
 
         } catch (NumberFormatException e) {
             System.err.println("NumberFormatException di tambahKeTabel: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Masukkan angka yang valid untuk jumlah!");
-        } catch (SQLException e) {
-            System.err.println("SQLException di tambahKeTabel: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Error saat memperbarui stok: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Exception di tambahKeTabel: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error tak terduga: " + e.getMessage());
