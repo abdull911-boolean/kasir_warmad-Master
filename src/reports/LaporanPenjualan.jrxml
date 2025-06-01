@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="struk_penjualan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="53b1b694-e839-4b8d-9577-b895b724ddd3">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL"/>
+	<parameter name="bulan" class="java.lang.Integer"/>
+	<parameter name="tahun" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT bj.nama_barang,
+                SUM(dtp.jumlah) AS total_terjual,
+                SUM(dtp.jumlah * sg.harga_beli) AS total_harga_beli,
+                SUM(dtp.subtotal) AS total_pendapatan,
+                SUM(dtp.subtotal) - SUM(dtp.jumlah * sg.harga_beli) AS laba_kotor
+                FROM detail_transaksi_pelanggan dtp
+                JOIN transaksi_kasir tk ON dtp.id_transaksi_kasir = tk.id_transaksi_kasir
+                JOIN barang_jual bj ON dtp.id_barang_jual = bj.id_barang_jual
+                JOIN stok_gudang sg ON dtp.id_barang_jual = sg.id_barang_jual
+                WHERE EXTRACT(MONTH FROM tk.tanggal) = $P{bulan} AND EXTRACT(YEAR FROM tk.tanggal) = $P{tahun}
+                GROUP BY bj.nama_barang]]>
+	</queryString>
+	<field name="nama_barang" class="java.lang.String"/>
+	<field name="total_terjual" class="java.lang.Integer"/>
+	<field name="total_harga_beli" class="java.math.BigDecimal"/>
+	<field name="total_pendapatan" class="java.math.BigDecimal"/>
+	<field name="laba_kotor" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="a1b2c3d4-5e6f-7890-abcd-ef1234567890"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Penjualan Bulanan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="40" width="555" height="20" uuid="b2c3d4e5-6f78-90ab-cdef-1234567890ab"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Bulan: " + $P{bulan} + " Tahun: " + $P{tahun}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="c3d4e5f6-7890-abcd-ef12-34567890abcd"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Dicetak pada: 30 Mei 2025, 19:02 WIB]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="d4e5f678-90ab-cdef-1234-567890abcdef"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama Barang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="e5f67890-abcd-ef12-3456-7890abcdef12"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Terjual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="120" height="20" uuid="f67890ab-cdef-1234-5678-90abcdef1234"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Harga Beli]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="0" width="120" height="20" uuid="67890abc-def1-2345-6789-0abcdef12345"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total Pendapatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="0" width="115" height="20" uuid="7890abcd-ef12-3456-7890-abcdef123456"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Laba Kotor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="890abcde-f123-4567-890a-bcdef1234567"/>
+				<textFieldExpression><![CDATA[$F{nama_barang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="90abcdef-1234-5678-90ab-cdef12345678"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_terjual}]]></textFieldExpression>
+			</textField>
+			<textField pattern="Rp #,##0.00">
+				<reportElement x="200" y="0" width="120" height="20" uuid="0abcdef1-2345-6789-0abc-def123456789"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_harga_beli}]]></textFieldExpression>
+			</textField>
+			<textField pattern="Rp #,##0.00">
+				<reportElement x="320" y="0" width="120" height="20" uuid="abcdef12-3456-7890-abcd-ef1234567890"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total_pendapatan}]]></textFieldExpression>
+			</textField>
+			<textField pattern="Rp #,##0.00">
+				<reportElement x="440" y="0" width="115" height="20" uuid="bcdef123-4567-890a-bcde-f1234567890a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{laba_kotor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="500" y="0" width="55" height="20" uuid="cdef1234-5678-90ab-cdef-1234567890ab"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
