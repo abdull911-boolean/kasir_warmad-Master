@@ -79,6 +79,16 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
         });
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+    }
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {
+        kodeBarangTxt.requestFocusInWindow(); // fokus langsung ke kode barang saat form dibuka
     }
 
     private void clearInput() {
@@ -483,7 +493,6 @@ public class Transaksi extends javax.swing.JFrame {
                 "Barcode", "Nama", "Harga", "Jumlah", "Total"
             }
         ));
-        TabelT.setColumnSelectionAllowed(false);
         jScrollPane1.setViewportView(TabelT);
 
         HapusT.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -574,15 +583,15 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(PotonganhargaT, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(TotalsemuaT, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -590,7 +599,7 @@ public class Transaksi extends javax.swing.JFrame {
                         .addGap(77, 77, 77)
                         .addComponent(jLabel10))
                     .addComponent(KembalianT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(metodeBayarBox, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
                 .addComponent(bayarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -606,7 +615,7 @@ public class Transaksi extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addGap(28, 28, 28)
                         .addComponent(searchBarangTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(27, 27, 27)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
