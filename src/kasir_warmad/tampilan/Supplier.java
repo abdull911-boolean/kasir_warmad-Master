@@ -4,6 +4,8 @@
  */
 package kasir_warmad.tampilan;
 
+import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -466,7 +469,15 @@ KontakSupplier.getDocument().addDocumentListener(new DocumentListener() {
             java.util.logging.Logger.getLogger(Supplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+ try {
+            UIManager.setLookAndFeel(new FlatArcOrangeIJTheme());
+            UIManager.put("Button.arc", 999);
+            UIManager.put("defaultFont", new Font("Poppins", Font.BOLD, 14));
+            Object put = UIManager.put("Component.arrowType", "triangle");
+        } catch (Exception ex) {
+            System.err.println("Gagal mengatur tema FlatLaf Arc Orange.");
+            ex.printStackTrace();
+        }
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
