@@ -35,7 +35,7 @@ public class tambah_barang extends javax.swing.JDialog {
         super(parent, modal);
         this.kelolaBarang = kelolaBarang;
         initComponents();
-        loadKategoriBarang();
+//        loadKategoriBarang();
     }
 
     private void loadKategoriBarang() {
