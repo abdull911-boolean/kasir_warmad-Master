@@ -79,6 +79,16 @@ public class Transaksi extends javax.swing.JFrame {
                 }
             }
         });
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+    }
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {
+        kodeBarangTxt.requestFocusInWindow(); // fokus langsung ke kode barang saat form dibuka
     }
 
     private void clearInput() {
@@ -246,7 +256,7 @@ public class Transaksi extends javax.swing.JFrame {
             int cetak = JOptionPane.showConfirmDialog(null, "Cetak struk sekarang?", "Cetak Struk", JOptionPane.YES_NO_OPTION);
             if (cetak == JOptionPane.YES_OPTION) {
                 reports.nota n = new reports.nota();
-                n.cetakStruk(idTransaksi);
+                n.printStrukLangsung(idTransaksi);
             }
 
             DefaultTableModel model = (DefaultTableModel) TabelT.getModel();
