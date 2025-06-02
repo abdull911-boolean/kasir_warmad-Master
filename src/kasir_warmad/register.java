@@ -41,21 +41,18 @@ public class register extends javax.swing.JFrame {
                 PasswordR.requestFocusInWindow();
             }
         });
-
         PasswordR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmailR.requestFocusInWindow();
             }
         });
-
         EmailR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RfidR.requestFocusInWindow();
             }
         });
-
         RfidR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +78,6 @@ public class register extends javax.swing.JFrame {
             while (rs.next()) {
                 RoleR.addItem(rs.getString("role"));
             }
-
             rs.close();
             ps.close();
             con.close();
@@ -104,40 +100,40 @@ public class register extends javax.swing.JFrame {
     private void initComponents() {
 
         jColorChooser1 = new javax.swing.JColorChooser();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        panelluar1R = new javax.swing.JPanel();
+        panelluar2R = new javax.swing.JPanel();
+        paneldalamR = new javax.swing.JPanel();
         UsernameR = new javax.swing.JTextField();
         EmailR = new javax.swing.JTextField();
         RegisterR = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        LregisterR = new javax.swing.JLabel();
+        LusernameR = new javax.swing.JLabel();
+        LpasswordR = new javax.swing.JLabel();
+        LemailR = new javax.swing.JLabel();
         PasswordR = new javax.swing.JPasswordField();
         RfidR = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        LrfidR = new javax.swing.JLabel();
         RoleR = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
+        LroleR = new javax.swing.JLabel();
         loginBtn = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        label1 = new java.awt.Label();
-        label2 = new java.awt.Label();
+        LsdhpunyaakunR = new javax.swing.JLabel();
+        TothepageR = new java.awt.Label();
+        welcomeR = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1245, 768));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1245, 768));
+        panelluar1R.setBackground(new java.awt.Color(255, 255, 255));
+        panelluar1R.setPreferredSize(new java.awt.Dimension(1245, 768));
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 153));
-        jPanel3.setPreferredSize(new java.awt.Dimension(891, 768));
+        panelluar2R.setBackground(new java.awt.Color(255, 204, 153));
+        panelluar2R.setPreferredSize(new java.awt.Dimension(891, 768));
 
-        jPanel4.setBackground(new java.awt.Color(255, 153, 51));
-        jPanel4.setPreferredSize(new java.awt.Dimension(581, 584));
-        jPanel4.addKeyListener(new java.awt.event.KeyAdapter() {
+        paneldalamR.setBackground(new java.awt.Color(255, 153, 51));
+        paneldalamR.setPreferredSize(new java.awt.Dimension(581, 584));
+        paneldalamR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jPanel4KeyReleased(evt);
+                paneldalamRKeyReleased(evt);
             }
         });
 
@@ -163,22 +159,22 @@ public class register extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("REGISTER");
+        LregisterR.setBackground(new java.awt.Color(255, 255, 255));
+        LregisterR.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        LregisterR.setForeground(new java.awt.Color(255, 255, 255));
+        LregisterR.setText("REGISTER");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Username");
+        LusernameR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        LusernameR.setForeground(new java.awt.Color(255, 255, 255));
+        LusernameR.setText("Username");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Password");
+        LpasswordR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        LpasswordR.setForeground(new java.awt.Color(255, 255, 255));
+        LpasswordR.setText("Password");
 
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Email");
+        LemailR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        LemailR.setForeground(new java.awt.Color(255, 255, 255));
+        LemailR.setText("Email");
 
         RfidR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,9 +182,9 @@ public class register extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("RFID KODE");
+        LrfidR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        LrfidR.setForeground(new java.awt.Color(255, 255, 255));
+        LrfidR.setText("RFID KODE");
 
         RoleR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         RoleR.addItemListener(new java.awt.event.ItemListener() {
@@ -197,60 +193,60 @@ public class register extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Role");
+        LroleR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        LroleR.setForeground(new java.awt.Color(255, 255, 255));
+        LroleR.setText("Role");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout paneldalamRLayout = new javax.swing.GroupLayout(paneldalamR);
+        paneldalamR.setLayout(paneldalamRLayout);
+        paneldalamRLayout.setHorizontalGroup(
+            paneldalamRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneldalamRLayout.createSequentialGroup()
                 .addContainerGap(205, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
+                .addGroup(paneldalamRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldalamRLayout.createSequentialGroup()
+                        .addGroup(paneldalamRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(LrfidR)
+                            .addComponent(LusernameR)
                             .addComponent(UsernameR, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
+                            .addComponent(LpasswordR)
                             .addComponent(PasswordR)
                             .addComponent(EmailR)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LemailR, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RfidR)
-                            .addComponent(jLabel6)
+                            .addComponent(LroleR)
                             .addComponent(RoleR, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(206, 206, 206))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldalamRLayout.createSequentialGroup()
+                        .addComponent(LregisterR)
                         .addGap(190, 190, 190))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldalamRLayout.createSequentialGroup()
                         .addComponent(RegisterR)
                         .addGap(235, 235, 235))))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        paneldalamRLayout.setVerticalGroup(
+            paneldalamRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneldalamRLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jLabel1)
+                .addComponent(LregisterR)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(LusernameR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(UsernameR, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(LpasswordR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PasswordR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(LemailR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EmailR, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addComponent(LroleR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RoleR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(LrfidR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RfidR)
                 .addGap(18, 18, 18)
@@ -267,71 +263,71 @@ public class register extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Sudah punya akun ?");
+        LsdhpunyaakunR.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        LsdhpunyaakunR.setForeground(new java.awt.Color(255, 255, 255));
+        LsdhpunyaakunR.setText("Sudah punya akun ?");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelluar2RLayout = new javax.swing.GroupLayout(panelluar2R);
+        panelluar2R.setLayout(panelluar2RLayout);
+        panelluar2RLayout.setHorizontalGroup(
+            panelluar2RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelluar2RLayout.createSequentialGroup()
                 .addContainerGap(149, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelluar2RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluar2RLayout.createSequentialGroup()
+                        .addComponent(paneldalamR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(119, 119, 119))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluar2RLayout.createSequentialGroup()
+                        .addComponent(LsdhpunyaakunR, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        panelluar2RLayout.setVerticalGroup(
+            panelluar2RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelluar2RLayout.createSequentialGroup()
                 .addGap(96, 96, 96)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(paneldalamR, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelluar2RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginBtn)
-                    .addComponent(jLabel7))
+                    .addComponent(LsdhpunyaakunR))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        label1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        label1.setForeground(new java.awt.Color(255, 153, 0));
-        label1.setText("To The Page");
+        TothepageR.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        TothepageR.setForeground(new java.awt.Color(255, 153, 0));
+        TothepageR.setText("To The Page");
 
-        label2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 36)); // NOI18N
-        label2.setForeground(new java.awt.Color(255, 153, 0));
-        label2.setText("WELCOME");
+        welcomeR.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 36)); // NOI18N
+        welcomeR.setForeground(new java.awt.Color(255, 153, 0));
+        welcomeR.setText("WELCOME");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelluar1RLayout = new javax.swing.GroupLayout(panelluar1R);
+        panelluar1R.setLayout(panelluar1RLayout);
+        panelluar1RLayout.setHorizontalGroup(
+            panelluar1RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluar1RLayout.createSequentialGroup()
+                .addGroup(panelluar1RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelluar1RLayout.createSequentialGroup()
                         .addGap(128, 128, 128)
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(TothepageR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelluar1RLayout.createSequentialGroup()
                         .addGap(83, 83, 83)
-                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(welcomeR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 394, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 849, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelluar2R, javax.swing.GroupLayout.PREFERRED_SIZE, 849, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+        panelluar1RLayout.setVerticalGroup(
+            panelluar1RLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluar1RLayout.createSequentialGroup()
+                .addComponent(panelluar2R, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(panelluar1RLayout.createSequentialGroup()
                 .addGap(277, 277, 277)
-                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(welcomeR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TothepageR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(409, Short.MAX_VALUE))
         );
 
@@ -341,17 +337,17 @@ public class register extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1527, Short.MAX_VALUE))
+                .addComponent(panelluar1R, javax.swing.GroupLayout.DEFAULT_SIZE, 1527, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelluar1R, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel4KeyReleased
+    private void paneldalamRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paneldalamRKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String rfid = RfidR.getText().trim();
             if (!rfid.isEmpty()) {
@@ -359,7 +355,7 @@ public class register extends javax.swing.JFrame {
             }
         }
 
-    }//GEN-LAST:event_jPanel4KeyReleased
+    }//GEN-LAST:event_paneldalamRKeyReleased
 
     private void RfidRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RfidRActionPerformed
         // TODO add your handling code here:
@@ -511,24 +507,24 @@ public class register extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField EmailR;
+    private javax.swing.JLabel LemailR;
+    private javax.swing.JLabel LpasswordR;
+    private javax.swing.JLabel LregisterR;
+    private javax.swing.JLabel LrfidR;
+    private javax.swing.JLabel LroleR;
+    private javax.swing.JLabel LsdhpunyaakunR;
+    private javax.swing.JLabel LusernameR;
     private javax.swing.JPasswordField PasswordR;
     private javax.swing.JButton RegisterR;
     private javax.swing.JTextField RfidR;
     private javax.swing.JComboBox<String> RoleR;
+    private java.awt.Label TothepageR;
     private javax.swing.JTextField UsernameR;
     private javax.swing.JColorChooser jColorChooser1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private java.awt.Label label1;
-    private java.awt.Label label2;
     private javax.swing.JButton loginBtn;
+    private javax.swing.JPanel paneldalamR;
+    private javax.swing.JPanel panelluar1R;
+    private javax.swing.JPanel panelluar2R;
+    private java.awt.Label welcomeR;
     // End of variables declaration//GEN-END:variables
 }

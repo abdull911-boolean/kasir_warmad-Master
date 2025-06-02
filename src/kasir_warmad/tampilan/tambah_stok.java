@@ -111,21 +111,21 @@ public class tambah_stok extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        ScrolltambahstokTS = new javax.swing.JScrollPane();
+        panelluarTS = new javax.swing.JPanel();
+        LtambahstokTS = new javax.swing.JLabel();
+        LpilihbarangTS = new javax.swing.JLabel();
+        LstokbarangTS = new javax.swing.JLabel();
+        LtglkadaluarsaTS = new javax.swing.JLabel();
         PilihbarangPK = new javax.swing.JComboBox<>();
         BatalPK = new javax.swing.JButton();
         SimpanPK = new javax.swing.JButton();
         TglkadaluarsaPK = new com.toedter.calendar.JDateChooser();
         TglinputPK = new com.toedter.calendar.JDateChooser();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        LtglinputTS = new javax.swing.JLabel();
+        LhargajualTS = new javax.swing.JLabel();
+        LhargabeliTS = new javax.swing.JLabel();
+        LnamasupplierTS = new javax.swing.JLabel();
         SuplierCb = new javax.swing.JComboBox<>();
         StokPK = new javax.swing.JTextField();
         HargajualPK = new javax.swing.JTextField();
@@ -140,26 +140,26 @@ public class tambah_stok extends javax.swing.JDialog {
         });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelluarTS.setBackground(new java.awt.Color(255, 255, 255));
+        panelluarTS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel1.setText("Tambah Stok");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 19, -1, -1));
+        LtambahstokTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LtambahstokTS.setText("Tambah Stok");
+        panelluarTS.add(LtambahstokTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 19, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel2.setText("Pilih Barang");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 65, -1, -1));
+        LpilihbarangTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LpilihbarangTS.setText("Pilih Barang");
+        panelluarTS.add(LpilihbarangTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 65, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel3.setText(" Stok Barang");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 149, -1, -1));
+        LstokbarangTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LstokbarangTS.setText(" Stok Barang");
+        panelluarTS.add(LstokbarangTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 149, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel4.setText("Tanggal Kadaluarsa");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 225, -1, -1));
+        LtglkadaluarsaTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LtglkadaluarsaTS.setText("Tanggal Kadaluarsa");
+        panelluarTS.add(LtglkadaluarsaTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 225, -1, -1));
 
-        jPanel1.add(PilihbarangPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 101, 480, -1));
+        panelluarTS.add(PilihbarangPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 101, 480, -1));
 
         BatalPK.setText("Batal");
         BatalPK.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +167,7 @@ public class tambah_stok extends javax.swing.JDialog {
                 BatalPKActionPerformed(evt);
             }
         });
-        jPanel1.add(BatalPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 600, -1, -1));
+        panelluarTS.add(BatalPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 600, -1, -1));
 
         SimpanPK.setText("Simpan");
         SimpanPK.addActionListener(new java.awt.event.ActionListener() {
@@ -175,34 +175,34 @@ public class tambah_stok extends javax.swing.JDialog {
                 SimpanPKActionPerformed(evt);
             }
         });
-        jPanel1.add(SimpanPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 600, -1, -1));
-        jPanel1.add(TglkadaluarsaPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 261, 480, -1));
-        jPanel1.add(TglinputPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 337, 480, -1));
+        panelluarTS.add(SimpanPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 600, -1, -1));
+        panelluarTS.add(TglkadaluarsaPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 261, 480, -1));
+        panelluarTS.add(TglinputPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 337, 480, -1));
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel5.setText("Tanggal Input");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 301, -1, -1));
+        LtglinputTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LtglinputTS.setText("Tanggal Input");
+        panelluarTS.add(LtglinputTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 301, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel6.setText("Harga Jual");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 100, -1));
+        LhargajualTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LhargajualTS.setText("Harga Jual");
+        panelluarTS.add(LhargajualTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 100, -1));
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel7.setText("Harga Beli");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, 79, -1));
+        LhargabeliTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LhargabeliTS.setText("Harga Beli");
+        panelluarTS.add(LhargabeliTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, 79, -1));
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel8.setText("Nama Supplier");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
+        LnamasupplierTS.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LnamasupplierTS.setText("Nama Supplier");
+        panelluarTS.add(LnamasupplierTS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
 
-        jPanel1.add(SuplierCb, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 480, -1));
-        jPanel1.add(StokPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 480, -1));
-        jPanel1.add(HargajualPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 480, -1));
-        jPanel1.add(HargabeliPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 480, -1));
+        panelluarTS.add(SuplierCb, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 480, -1));
+        panelluarTS.add(StokPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 480, -1));
+        panelluarTS.add(HargajualPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 480, -1));
+        panelluarTS.add(HargabeliPK, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 480, -1));
 
-        jScrollPane1.setViewportView(jPanel1);
+        ScrolltambahstokTS.setViewportView(panelluarTS);
 
-        getContentPane().add(jScrollPane1);
+        getContentPane().add(ScrolltambahstokTS);
 
         pack();
         setLocationRelativeTo(null);
@@ -324,21 +324,21 @@ public class tambah_stok extends javax.swing.JDialog {
     private javax.swing.JButton BatalPK;
     private javax.swing.JTextField HargabeliPK;
     private javax.swing.JTextField HargajualPK;
+    private javax.swing.JLabel LhargabeliTS;
+    private javax.swing.JLabel LhargajualTS;
+    private javax.swing.JLabel LnamasupplierTS;
+    private javax.swing.JLabel LpilihbarangTS;
+    private javax.swing.JLabel LstokbarangTS;
+    private javax.swing.JLabel LtambahstokTS;
+    private javax.swing.JLabel LtglinputTS;
+    private javax.swing.JLabel LtglkadaluarsaTS;
     private javax.swing.JComboBox<PilihBarang> PilihbarangPK;
+    private javax.swing.JScrollPane ScrolltambahstokTS;
     public javax.swing.JButton SimpanPK;
     private javax.swing.JTextField StokPK;
     private javax.swing.JComboBox<String> SuplierCb;
     private com.toedter.calendar.JDateChooser TglinputPK;
     private com.toedter.calendar.JDateChooser TglkadaluarsaPK;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelluarTS;
     // End of variables declaration//GEN-END:variables
 }

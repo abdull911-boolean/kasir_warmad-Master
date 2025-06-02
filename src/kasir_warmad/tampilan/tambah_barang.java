@@ -69,19 +69,19 @@ public class tambah_barang extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
+        panelluarTB = new javax.swing.JPanel();
+        ScrolltambahbarangTB = new javax.swing.JScrollPane();
+        paneldalamTB = new javax.swing.JPanel();
         KodebarangBPK = new javax.swing.JTextField();
         VarianbarangBPK = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        LtambahbarangTB = new javax.swing.JLabel();
+        LnamabarangTB = new javax.swing.JLabel();
+        LvarianTB = new javax.swing.JLabel();
         SimpanBPK = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        LkategoriTB = new javax.swing.JLabel();
         BatalBPK = new javax.swing.JButton();
         KategoriBPK = new javax.swing.JComboBox<>();
-        jLabel13 = new javax.swing.JLabel();
+        LkodebarangTB = new javax.swing.JLabel();
         NamabarangBPK = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -92,9 +92,9 @@ public class tambah_barang extends javax.swing.JDialog {
         });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        panelluarTB.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        paneldalamTB.setBackground(new java.awt.Color(255, 255, 255));
 
         KodebarangBPK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,14 +113,14 @@ public class tambah_barang extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel1.setText("Tambah Barang");
+        LtambahbarangTB.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LtambahbarangTB.setText("Tambah Barang");
 
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel3.setText("Nama Barang");
+        LnamabarangTB.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        LnamabarangTB.setText("Nama Barang");
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel4.setText("Varian");
+        LvarianTB.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        LvarianTB.setText("Varian");
 
         SimpanBPK.setText("Simpan");
         SimpanBPK.addActionListener(new java.awt.event.ActionListener() {
@@ -129,8 +129,8 @@ public class tambah_barang extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel5.setText("Kategori");
+        LkategoriTB.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        LkategoriTB.setText("Kategori");
 
         BatalBPK.setText("Batal");
         BatalBPK.addActionListener(new java.awt.event.ActionListener() {
@@ -145,83 +145,83 @@ public class tambah_barang extends javax.swing.JDialog {
             }
         });
 
-        jLabel13.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel13.setText("Kode Barang");
+        LkodebarangTB.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        LkodebarangTB.setText("Kode Barang");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout paneldalamTBLayout = new javax.swing.GroupLayout(paneldalamTB);
+        paneldalamTB.setLayout(paneldalamTBLayout);
+        paneldalamTBLayout.setHorizontalGroup(
+            paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneldalamTBLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneldalamTBLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NamabarangBPK)
                             .addComponent(KategoriBPK, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(VarianbarangBPK)
                             .addComponent(SimpanBPK, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(KodebarangBPK, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel3))
+                            .addGroup(paneldalamTBLayout.createSequentialGroup()
+                                .addGroup(paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LkategoriTB)
+                                    .addComponent(LvarianTB)
+                                    .addComponent(LkodebarangTB)
+                                    .addComponent(LnamabarangTB))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BatalBPK))
-                    .addComponent(jLabel1))
+                    .addComponent(LtambahbarangTB))
                 .addGap(37, 37, 37))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        paneldalamTBLayout.setVerticalGroup(
+            paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneldalamTBLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(LtambahbarangTB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(LnamabarangTB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NamabarangBPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(jLabel13)
+                .addComponent(LkodebarangTB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(KodebarangBPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(LvarianTB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VarianbarangBPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(LkategoriTB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(KategoriBPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paneldalamTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SimpanBPK)
                     .addComponent(BatalBPK))
                 .addGap(198, 198, 198))
         );
 
-        jScrollPane1.setViewportView(jPanel2);
+        ScrolltambahbarangTB.setViewportView(paneldalamTB);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelluarTBLayout = new javax.swing.GroupLayout(panelluarTB);
+        panelluarTB.setLayout(panelluarTBLayout);
+        panelluarTBLayout.setHorizontalGroup(
+            panelluarTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluarTBLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                .addComponent(ScrolltambahbarangTB, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panelluarTBLayout.setVerticalGroup(
+            panelluarTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelluarTBLayout.createSequentialGroup()
+                .addComponent(ScrolltambahbarangTB, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1);
+        getContentPane().add(panelluarTB);
 
         pack();
         setLocationRelativeTo(null);
@@ -354,16 +354,16 @@ public class tambah_barang extends javax.swing.JDialog {
     private javax.swing.JButton BatalBPK;
     private javax.swing.JComboBox<String> KategoriBPK;
     private javax.swing.JTextField KodebarangBPK;
+    private javax.swing.JLabel LkategoriTB;
+    private javax.swing.JLabel LkodebarangTB;
+    private javax.swing.JLabel LnamabarangTB;
+    private javax.swing.JLabel LtambahbarangTB;
+    private javax.swing.JLabel LvarianTB;
     private javax.swing.JTextField NamabarangBPK;
+    private javax.swing.JScrollPane ScrolltambahbarangTB;
     private javax.swing.JButton SimpanBPK;
     private javax.swing.JTextField VarianbarangBPK;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel paneldalamTB;
+    private javax.swing.JPanel panelluarTB;
     // End of variables declaration//GEN-END:variables
 }

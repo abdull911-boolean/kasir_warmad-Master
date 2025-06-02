@@ -104,13 +104,14 @@ public class Kelola_barang extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new GradientPanel();
+        panelutamaK = new GradientPanel();
         TambahbarangK = new javax.swing.JButton();
         TambahstokK = new javax.swing.JButton();
         TbarangterlarisK = new javax.swing.JScrollPane();
         TabelK = new javax.swing.JTable();
-        panel1 = new java.awt.Panel();
+        panelluarK = new java.awt.Panel();
         DashboardK = new javax.swing.JButton();
+        LupdatestokK = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -119,7 +120,7 @@ public class Kelola_barang extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        panelutamaK.setBackground(new java.awt.Color(255, 255, 255));
 
         TambahbarangK.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         TambahbarangK.setText("Tambah Barang+");
@@ -160,48 +161,59 @@ public class Kelola_barang extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-        panel1.setLayout(panel1Layout);
-        panel1Layout.setHorizontalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelluarKLayout = new javax.swing.GroupLayout(panelluarK);
+        panelluarK.setLayout(panelluarKLayout);
+        panelluarKLayout.setHorizontalGroup(
+            panelluarKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelluarKLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(DashboardK)
                 .addGap(89, 89, 89))
         );
-        panel1Layout.setVerticalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
+        panelluarKLayout.setVerticalGroup(
+            panelluarKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelluarKLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardK)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(TambahbarangK)
-                .addGap(116, 116, 116)
-                .addComponent(TambahstokK)
-                .addGap(142, 834, Short.MAX_VALUE))
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        LupdatestokK.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        LupdatestokK.setForeground(new java.awt.Color(255, 255, 255));
+        LupdatestokK.setText("Update Barang ");
+
+        javax.swing.GroupLayout panelutamaKLayout = new javax.swing.GroupLayout(panelutamaK);
+        panelutamaK.setLayout(panelutamaKLayout);
+        panelutamaKLayout.setHorizontalGroup(
+            panelutamaKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelluarK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelutamaKLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(TbarangterlarisK)
                 .addContainerGap())
+            .addGroup(panelutamaKLayout.createSequentialGroup()
+                .addGroup(panelutamaKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelutamaKLayout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(TambahbarangK)
+                        .addGap(116, 116, 116)
+                        .addComponent(TambahstokK))
+                    .addGroup(panelutamaKLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(LupdatestokK, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(142, 834, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panelutamaKLayout.setVerticalGroup(
+            panelutamaKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelutamaKLayout.createSequentialGroup()
+                .addComponent(panelluarK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelutamaKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TambahbarangK)
                     .addComponent(TambahstokK))
-                .addGap(94, 94, 94)
+                .addGap(46, 46, 46)
+                .addComponent(LupdatestokK, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(TbarangterlarisK, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(211, Short.MAX_VALUE))
         );
@@ -210,11 +222,11 @@ public class Kelola_barang extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelutamaK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelutamaK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -282,11 +294,12 @@ public class Kelola_barang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DashboardK;
+    private javax.swing.JLabel LupdatestokK;
     private javax.swing.JTable TabelK;
     private javax.swing.JButton TambahbarangK;
     private javax.swing.JButton TambahstokK;
     private javax.swing.JScrollPane TbarangterlarisK;
-    private javax.swing.JPanel jPanel1;
-    private java.awt.Panel panel1;
+    private java.awt.Panel panelluarK;
+    private javax.swing.JPanel panelutamaK;
     // End of variables declaration//GEN-END:variables
 }

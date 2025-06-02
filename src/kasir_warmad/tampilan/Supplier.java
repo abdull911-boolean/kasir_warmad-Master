@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -27,12 +28,11 @@ import kasir_warmad.sistem.Session;
 import utils.PhoneNumberFormatter;
 import utils.RupiahUtil;
 
-/**
- *
- * @author Ariel
- */
-public class Supplier extends javax.swing.JDialog {
 
+
+public class Supplier extends javax.swing.JDialog {
+HashMap<String, String> barangMap = new HashMap<>();
+    private final String awalanNoTelepon = "(+62)"; 
     /**
      * Creates new form Supplier
      */
@@ -40,9 +40,79 @@ public class Supplier extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         tampilkanBarangKeTabelS();
-        new PhoneNumberFormatter(KontakTxt);
+       
+        KontakSupplier.setText(awalanNoTelepon);
+        
+KontakSupplier.getDocument().addDocumentListener(new DocumentListener() {
+    private void formatInput() {
+        SwingUtilities.invokeLater(() -> {
+            String text = KontakSupplier.getText();
 
-        tableS.getSelectionModel().addListSelectionListener(event -> {
+            // Kalau kosong, kasih default awal
+            if (text.isEmpty()) {
+                KontakSupplier.setText("(+62) ");
+                KontakSupplier.setCaretPosition(KontakSupplier.getText().length());
+                return;
+            }
+
+            // Pastikan tanda kurung dan plus ada di awal, kalau gak ada, tambahkan
+            if (!text.startsWith("(+")) {
+                text = "(+" + text;
+            }
+            if (!text.contains(")")) {
+                text = text + ")";
+            }
+
+            // Cari posisi tanda tutup kurung ')'
+            int closeParenIndex = text.indexOf(')');
+            if (closeParenIndex < 3) { // Minimal harus ada 3 char di dalam kurung
+                // tambahkan 62 default kalau kurang dari 3 char di dalam kurung
+                text = "(+62) ";
+                KontakSupplier.setText(text);
+                KontakSupplier.setCaretPosition(text.length());
+                return;
+            }
+
+            // Ambil kode negara di dalam tanda kurung
+            String kodeNegara = text.substring(2, closeParenIndex);
+
+            // Ambil nomor setelah spasi setelah tanda kurung
+            String nomor = "";
+            if (text.length() > closeParenIndex + 2) {
+                nomor = text.substring(closeParenIndex + 2);
+                // Hapus karakter yang bukan digit
+                nomor = nomor.replaceAll("[^\\d]", "");
+            }
+
+            // Format ulang
+            String formatted = "(+" + kodeNegara + ") " + nomor;
+
+            // Jika beda dengan text sekarang, update
+            if (!formatted.equals(text)) {
+                int caretPos = KontakSupplier.getCaretPosition();
+                KontakSupplier.setText(formatted);
+                if (caretPos > formatted.length()) caretPos = formatted.length();
+                KontakSupplier.setCaretPosition(caretPos);
+            }
+        });
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        formatInput();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        formatInput();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        formatInput();
+    }
+});
+            tableS.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting() && tableS.getSelectedRow() != -1) {
                 int selectedRow = tableS.getSelectedRow();
                 String idSupplier = tableS.getValueAt(selectedRow, 0).toString();
@@ -195,22 +265,22 @@ public class Supplier extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        panelutamaSp = new javax.swing.JPanel();
+        ScrollTsupplierSp = new javax.swing.JScrollPane();
         tableS = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        LnamaSp = new javax.swing.JLabel();
+        LkontakSp = new javax.swing.JLabel();
+        LalamatSp = new javax.swing.JLabel();
         namaS = new javax.swing.JTextField();
-        KontakTxt = new javax.swing.JTextField();
+        KontakSupplier = new javax.swing.JTextField();
         alamatS = new javax.swing.JTextField();
         batalS = new javax.swing.JButton();
         simpanS = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        LsupplierSp = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        panelutamaSp.setBackground(new java.awt.Color(255, 255, 255));
 
         tableS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -223,13 +293,13 @@ public class Supplier extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(tableS);
+        ScrollTsupplierSp.setViewportView(tableS);
 
-        jLabel1.setText("Nama");
+        LnamaSp.setText("Nama");
 
-        jLabel2.setText("Kontak");
+        LkontakSp.setText("Kontak");
 
-        jLabel3.setText("Alamat");
+        LalamatSp.setText("Alamat");
 
         batalS.setText("Batal");
         batalS.addActionListener(new java.awt.event.ActionListener() {
@@ -245,58 +315,58 @@ public class Supplier extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel4.setText("Supplier");
+        LsupplierSp.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        LsupplierSp.setText("Supplier");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelutamaSpLayout = new javax.swing.GroupLayout(panelutamaSp);
+        panelutamaSp.setLayout(panelutamaSpLayout);
+        panelutamaSpLayout.setHorizontalGroup(
+            panelutamaSpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelutamaSpLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelutamaSpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelutamaSpLayout.createSequentialGroup()
+                        .addGroup(panelutamaSpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(LnamaSp, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LkontakSp, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LalamatSp, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(namaS, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(KontakTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(KontakSupplier, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(alamatS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelutamaSpLayout.createSequentialGroup()
                                 .addComponent(simpanS)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(batalS)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScrollTsupplierSp, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelutamaSpLayout.createSequentialGroup()
+                        .addComponent(LsupplierSp, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelutamaSpLayout.setVerticalGroup(
+            panelutamaSpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelutamaSpLayout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(ScrollTsupplierSp, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(panelutamaSpLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(LsupplierSp, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel1)
+                .addComponent(LnamaSp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namaS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
-                .addComponent(jLabel2)
+                .addComponent(LkontakSp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(KontakTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KontakSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel3)
+                .addComponent(LalamatSp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(alamatS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelutamaSpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(batalS)
                     .addComponent(simpanS))
                 .addGap(33, 33, 33))
@@ -307,12 +377,12 @@ public class Supplier extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelutamaSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelutamaSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -322,7 +392,7 @@ public class Supplier extends javax.swing.JDialog {
     private void simpanSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanSActionPerformed
         String namaSupplier = namaS.getText().trim();
         String alamatSupplier = alamatS.getText().trim();
-        String kontakSupplier = KontakTxt.getText().trim();
+        String kontakSupplier = KontakSupplier.getText().trim();
 
         // Validate fields
         if (namaSupplier.isEmpty() || alamatSupplier.isEmpty() || kontakSupplier.isEmpty()) {
@@ -351,7 +421,7 @@ public class Supplier extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Data Supplier berhasil disimpan!");
             namaS.setText("");
             alamatS.setText("");
-            KontakTxt.setText("");
+            KontakSupplier.setText("");
             tampilkanBarangKeTabelS();
 
         } catch (SQLException e) {
@@ -413,16 +483,16 @@ public class Supplier extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField KontakTxt;
+    private javax.swing.JTextField KontakSupplier;
+    private javax.swing.JLabel LalamatSp;
+    private javax.swing.JLabel LkontakSp;
+    private javax.swing.JLabel LnamaSp;
+    private javax.swing.JLabel LsupplierSp;
+    private javax.swing.JScrollPane ScrollTsupplierSp;
     private javax.swing.JTextField alamatS;
     private javax.swing.JButton batalS;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField namaS;
+    private javax.swing.JPanel panelutamaSp;
     private javax.swing.JButton simpanS;
     private javax.swing.JTable tableS;
     // End of variables declaration//GEN-END:variables
